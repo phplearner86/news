@@ -8,6 +8,10 @@ class Article extends Model
 {
 	protected $fillable = ['title', 'body', 'category_id'];
 
+	public  function path($name)
+	{
+		return route('articles.'. $name, $this->id);
+	}
 
     public function user()
     {

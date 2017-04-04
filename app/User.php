@@ -31,4 +31,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(Article::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function createArticle($fields)
+    {
+        return $this->articles()->create($fields);
+    }
+
+    public function owns($article)
+    {
+        return $this->id == $article->user_id;
+    }
+
+    public function hasRole($role)
+    {
+
+        // Single Role
+        if (is_string($role)) 
+        {
+            return $this->roles->contains('name', $role);
+        }
+
+        //Collection of roles
+        return !! $role->intersect($this->roles)->count();
+    }
 }
